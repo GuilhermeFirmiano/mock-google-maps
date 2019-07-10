@@ -7,6 +7,7 @@ type GeocodeSerivce interface {
 	Get() *models.GeocodeResponse
 }
 
+//geocodeService ...
 type geocodeService struct {
 }
 

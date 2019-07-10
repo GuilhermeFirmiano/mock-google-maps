@@ -21,10 +21,7 @@ func NewGeocodeController(service services.GeocodeSerivce) *GeocodeController {
 
 // RegisterRoutes ...
 func (ctrl *GeocodeController) RegisterRoutes(router *gin.RouterGroup) {
-	geocode := router.Group("geocode/json")
-	{
-		geocode.GET("", ctrl.get)
-	}
+	router.GET("geocode/json", ctrl.get)
 }
 
 func (ctrl *GeocodeController) get(c *gin.Context) {
