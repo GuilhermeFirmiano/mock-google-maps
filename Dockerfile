@@ -7,9 +7,10 @@ RUN apk --no-cache update \
     && wget -O- https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
 
 COPY . $GOPATH/src/github.com/GuilhermeFirmiano/mock-google-maps
-WORKDIR $GOPATH/src/github.com/GuilhermeFirmiano/mock-google-maps/api
+WORKDIR $GOPATH/src/github.com/GuilhermeFirmiano/mock-google-maps
+
 RUN dep ensure -v \
-    && CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o api .
+    && CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o app .
 
 FROM scratch
 WORKDIR /
@@ -19,9 +20,8 @@ COPY --from=builder /etc/group.nobody /etc/group
 COPY --from=builder /etc/passwd.nobody /etc/passwd
 USER nobody
 
-COPY --from=builder /go/src/github.com/GuilhermeFirmiano/mock-google-maps/api/api .
+COPY --from=builder /go/src/github.com/GuilhermeFirmiano/mock-google-maps/app .
 COPY --from=builder /go/src/github.com/GuilhermeFirmiano/mock-google-maps/.env .
-COPY --from=builder /go/src/github.com/GuilhermeFirmiano/mock-google-maps/api/swagger.json .
 
 EXPOSE 9000
-ENTRYPOINT ["/api"]
+ENTRYPOINT ["/app"]
