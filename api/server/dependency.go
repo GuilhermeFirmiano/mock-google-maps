@@ -8,10 +8,11 @@ import (
 
 const (
 	geocodeControllerDef        = "geocode-controller"
-	distanceMatrixControllerDef = "distanceMatrix-controller"
+	distanceMatrixControllerDef = "distance-matrix-controller"
+	staticMapsControllerDef     = "static-maps-controller"
 
 	geocodeServiceDef        = "geocode-service"
-	distanceMatrixServiceDef = "distanceMatrix-service"
+	distanceMatrixServiceDef = "distance-matrix-service"
 )
 
 //RegisterDependencies ...
@@ -48,6 +49,14 @@ func (server *Server) RegisterDependencies() {
 		Build: func(container di.Container) (interface{}, error) {
 			service := container.Get(distanceMatrixServiceDef).(services.DistanceMatrixService)
 			return controllers.NewDistanceMatrixController(service), nil
+		},
+	})
+
+	server.AddController(di.Def{
+		Name:  staticMapsControllerDef,
+		Scope: di.App,
+		Build: func(container di.Container) (interface{}, error) {
+			return controllers.NewStaticMapsController(), nil
 		},
 	})
 

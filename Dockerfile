@@ -22,6 +22,7 @@ USER nobody
 
 COPY --from=builder /go/src/github.com/GuilhermeFirmiano/mock-google-maps/app .
 COPY --from=builder /go/src/github.com/GuilhermeFirmiano/mock-google-maps/.env .
+COPY --from=builder /go/src/github.com/GuilhermeFirmiano/mock-google-maps/pkg/assets/. ./pkg/assets
 
 EXPOSE 9000
 ENTRYPOINT ["/app"]
